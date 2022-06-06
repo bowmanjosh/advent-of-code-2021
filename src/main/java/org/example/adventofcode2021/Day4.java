@@ -14,8 +14,8 @@ class Day4 extends Day {
   Day4() {
   }
 
-  private int[][] getCardsInt() {
-    return new int[][] {
+  private ArrayList<int[]> getCards() {
+    final int[][] cards = {
         // @formatter:off
         {50,83, 3,31,16,47, 9,94,10,86,61,22,53,46,74,77,41,79,55,62,97,78,43,73,40},
         {99,96,20,35,21,38,17,48,69,68, 9,51,32,52,11,67, 8,42,89,27,39,62,66,72,43},
@@ -119,11 +119,7 @@ class Day4 extends Day {
         {27,18,39, 0,48,84,74,64,80,60,28,96,37,65,57,53,79,89,32,14,55,63,50, 7,62}
         // @formatter:on
     };
-  }
-
-  private ArrayList<int[]> getCardsArrayList() {
-    int[][] cards = getCardsInt();
-    ArrayList<int[]> arrayList = new ArrayList<>(100);
+    final ArrayList<int[]> arrayList = new ArrayList<>(100);
     for (int i = 0; i < 100; i++) {
       arrayList.add(cards[i]);
     }
@@ -143,7 +139,7 @@ class Day4 extends Day {
 
   @Override
   void part1() {
-    int[][] cards = getCardsInt();
+    final var cards = getCards();
     for (final int currentNumber : CALLED_NUMBERS) {
       for (final int[] currentCard : cards) {
         for (int k = 0; k < currentCard.length; k++) {
