@@ -1,10 +1,8 @@
 package org.example.adventofcode2021;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
-class Day4 extends Day {
+final class Day4 extends Day {
   static final byte[] CALLED_NUMBERS = {
       31, 88, 35, 24, 46, 48, 95, 42, 18, 43, 71, 32, 92, 62, 97, 63, 50, 2, 60, 58, 74, 66, 15, 87,
       57, 34, 14, 3, 54, 93, 75, 22, 45, 10, 56, 12, 83, 30, 8, 76, 1, 78, 82, 39, 98, 37, 19, 26,
@@ -16,7 +14,7 @@ class Day4 extends Day {
   Day4() {
   }
 
-  private @NotNull ArrayList<int[]> getCards() {
+  private ArrayList<int[]> getCards() {
     final int[][] cards = {
         // @formatter:off
         {50,83, 3,31,16,47, 9,94,10,86,61,22,53,46,74,77,41,79,55,62,97,78,43,73,40},
@@ -128,8 +126,7 @@ class Day4 extends Day {
     return arrayList;
   }
 
-  private void foundWinningCard(final int part, final int lastNumber,
-                                final int @NotNull [] winningCard) {
+  private void foundWinningCard(final int part, final int lastNumber, final int[] winningCard) {
     int unmarkedNumbersSum = 0;
     for (final int b : winningCard) {
       if (b != -1) {
