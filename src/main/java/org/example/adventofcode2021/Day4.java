@@ -126,19 +126,20 @@ class Day4 extends Day {
     return arrayList;
   }
 
-  private void foundWinningCard(int lastNumber, int[] winningCard) {
+  private void foundWinningCard(final int part, final int lastNumber, final int[] winningCard) {
     int unmarkedNumbersSum = 0;
-    for (int b : winningCard) {
+    for (final int b : winningCard) {
       if (b != -1) {
         unmarkedNumbersSum += b;
       }
     }
     final int score = unmarkedNumbersSum * lastNumber;
-    System.out.println("The score for part 1 is: " + score);
+    System.out.println("The score for part " + part + " is: " + score);
   }
 
   @Override
   void part1() {
+    final int PART = 1;
     final var cards = getCards();
     for (final int currentNumber : CALLED_NUMBERS) {
       for (final int[] currentCard : cards) {
@@ -150,7 +151,7 @@ class Day4 extends Day {
             final int rowSum = currentCard[rowStart] + currentCard[rowStart + 1]
                 + currentCard[rowStart + 2] + currentCard[rowStart + 3] + currentCard[rowStart + 4];
             if (rowSum == -5) {
-              foundWinningCard(currentNumber, currentCard);
+              foundWinningCard(PART, currentNumber, currentCard);
               return;
             }
             final int columnStart = k % 5;
@@ -158,7 +159,7 @@ class Day4 extends Day {
                 + currentCard[columnStart + 10] + currentCard[columnStart + 15]
                 + currentCard[columnStart + 20];
             if (columnSum == -5) {
-              foundWinningCard(currentNumber, currentCard);
+              foundWinningCard(PART, currentNumber, currentCard);
               return;
             }
           }
