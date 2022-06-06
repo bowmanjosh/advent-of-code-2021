@@ -1,5 +1,7 @@
 package org.example.adventofcode2021;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 class Day4 extends Day {
@@ -14,7 +16,7 @@ class Day4 extends Day {
   Day4() {
   }
 
-  private ArrayList<int[]> getCards() {
+  private @NotNull ArrayList<int[]> getCards() {
     final int[][] cards = {
         // @formatter:off
         {50,83, 3,31,16,47, 9,94,10,86,61,22,53,46,74,77,41,79,55,62,97,78,43,73,40},
@@ -126,7 +128,8 @@ class Day4 extends Day {
     return arrayList;
   }
 
-  private void foundWinningCard(final int part, final int lastNumber, final int[] winningCard) {
+  private void foundWinningCard(final int part, final int lastNumber,
+                                final int @NotNull [] winningCard) {
     int unmarkedNumbersSum = 0;
     for (final int b : winningCard) {
       if (b != -1) {
@@ -139,27 +142,29 @@ class Day4 extends Day {
 
   @Override
   void part1() {
-    final int PART = 1;
+    final int part = 1;
     final var cards = getCards();
     for (final int currentNumber : CALLED_NUMBERS) {
       for (final int[] currentCard : cards) {
         for (int k = 0; k < currentCard.length; k++) {
           if (currentCard[k] == currentNumber) {
-            // we "mark" a space with value -1, then check if space's row/column is all -1's.
+            // We "mark" a space with value -1, then check if that space's row/column are all -1's.
             currentCard[k] = -1;
             final int rowStart = (k / 5) * 5;
+
             final int rowSum = currentCard[rowStart] + currentCard[rowStart + 1]
                 + currentCard[rowStart + 2] + currentCard[rowStart + 3] + currentCard[rowStart + 4];
             if (rowSum == -5) {
-              foundWinningCard(PART, currentNumber, currentCard);
+              foundWinningCard(part, currentNumber, currentCard);
               return;
             }
+
             final int columnStart = k % 5;
             final int columnSum = currentCard[columnStart] + currentCard[columnStart + 5]
                 + currentCard[columnStart + 10] + currentCard[columnStart + 15]
                 + currentCard[columnStart + 20];
             if (columnSum == -5) {
-              foundWinningCard(PART, currentNumber, currentCard);
+              foundWinningCard(part, currentNumber, currentCard);
               return;
             }
           }
@@ -170,6 +175,5 @@ class Day4 extends Day {
 
   @Override
   void part2() {
-
   }
 }
