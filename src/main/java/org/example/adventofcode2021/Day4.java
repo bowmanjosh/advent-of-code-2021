@@ -175,5 +175,48 @@ class Day4 extends Day {
 
   @Override
   void part2() {
+    final int part = 2;
+    final var cards = getCards();
+    final var winningCards = new ArrayList<int[]>();
+
+    for (final int currentNumber : CALLED_NUMBERS) {
+      for (final int[] currentCard : cards) {
+        for (int k = 0; k < currentCard.length; k++) {
+          if (currentCard[k] == currentNumber) {
+            // We "mark" a space with value -1, then check if that space's row/column are all -1's.
+            currentCard[k] = -1;
+            final int rowStart = (k / 5) * 5;
+
+            final int rowSum = currentCard[rowStart] + currentCard[rowStart + 1]
+                + currentCard[rowStart + 2] + currentCard[rowStart + 3] + currentCard[rowStart + 4];
+            if (rowSum == -5) {
+              winningCards.add(currentCard);
+              continue;
+            }
+
+            final int columnStart = k % 5;
+            final int columnSum = currentCard[columnStart] + currentCard[columnStart + 5]
+                + currentCard[columnStart + 10] + currentCard[columnStart + 15]
+                + currentCard[columnStart + 20];
+            if (columnSum == -5) {
+              winningCards.add(currentCard);
+            }
+          }
+        }
+      }
+
+      // Check for winning cards.
+      if (winningCards.size() != 0) {
+        if (winningCards.size() == cards.size()) {
+          // Found last card. Grab last card from winningCards.
+          foundWinningCard(part, currentNumber, winningCards.get(winningCards.size() - 1));
+          return;
+        } else {
+          // Remove winning cards.
+          cards.removeAll(winningCards);
+          winningCards.clear();
+        }
+      }
+    }
   }
 }
