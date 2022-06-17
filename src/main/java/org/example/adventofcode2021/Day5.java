@@ -516,54 +516,43 @@ final class Day5 extends Day {
 
   void part1() {
     final var coordinates = getCoordinates();
-
-    // Find straight lines.
-    final var verticalLines = new ArrayList<int[]>();
-    final var horizontalLines = new ArrayList<int[]>();
-    for (final int[] coordinate : coordinates) {
-      if (coordinate[0] == coordinate[2]) {
-        verticalLines.add(coordinate);
-      } else if (coordinate[1] == coordinate[3]) {
-        horizontalLines.add(coordinate);
-      }
-    }
-
     // The coordinates go into the 900s, so we set the grid to be 1000 square.
     final var grid = new int[GRID_SIZE][GRID_SIZE];
 
-    // Draw the vertical lines
-    for (final int[] line : verticalLines) {
-      final int x = line[0];
-      final int y1;
-      final int y2;
-      if (line[1] > line[3]) {
-        y1 = line[3];
-        y2 = line[1];
-      } else {
-        y1 = line[1];
-        y2 = line[3];
-      }
+    // Find straight lines.
+    for (final int[] coordinate : coordinates) {
+      if (coordinate[0] == coordinate[2]) {
+        // We have a vertical line. Draw the line onto the grid.
+        final int x = coordinate[0];
+        final int y1;
+        final int y2;
+        if (coordinate[1] > coordinate[3]) {
+          y1 = coordinate[3];
+          y2 = coordinate[1];
+        } else {
+          y1 = coordinate[1];
+          y2 = coordinate[3];
+        }
 
-      for (int i = y1; i <= y2; i++) {
-        grid[x][i]++;
-      }
-    }
+        for (int i = y1; i <= y2; i++) {
+          grid[x][i]++;
+        }
+      } else if (coordinate[1] == coordinate[3]) {
+        // We have a horizontal line. Draw the line onto the grid.
+        final int y = coordinate[1];
+        final int x1;
+        final int x2;
+        if (coordinate[0] > coordinate[2]) {
+          x1 = coordinate[2];
+          x2 = coordinate[0];
+        } else {
+          x1 = coordinate[0];
+          x2 = coordinate[2];
+        }
 
-    // Draw the horizontal lines.
-    for (final int[] line : horizontalLines) {
-      final int y = line[1];
-      final int x1;
-      final int x2;
-      if (line[0] > line[2]) {
-        x1 = line[2];
-        x2 = line[0];
-      } else {
-        x1 = line[0];
-        x2 = line[2];
-      }
-
-      for (int i = x1; i <= x2; i++) {
-        grid[i][y]++;
+        for (int i = x1; i <= x2; i++) {
+          grid[i][y]++;
+        }
       }
     }
 
