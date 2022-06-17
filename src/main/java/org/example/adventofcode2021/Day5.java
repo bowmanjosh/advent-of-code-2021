@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 final class Day5 extends Day {
+  private static final int GRID_SIZE = 1000;
+
   private ArrayList<int[]> getCoordinates() {
     final int[][] input = {
         {365, 809, 365, 271},
@@ -527,7 +529,7 @@ final class Day5 extends Day {
     }
 
     // The coordinates go into the 900s, so we set the grid to be 1000 square.
-    final var grid = new int[1000][1000];
+    final var grid = new int[GRID_SIZE][GRID_SIZE];
 
     // Draw the vertical lines
     for (final int[] line : verticalLines) {
@@ -575,10 +577,80 @@ final class Day5 extends Day {
       }
     }
 
-    System.out.println("Points where two or more lines overlap: " + overlaps);
+    System.out.println("Part 1: Points where two or more lines overlap: " + overlaps);
   }
 
   void part2() {
+    final var grid = new int[GRID_SIZE][GRID_SIZE];
+    final var coordinates = getCoordinates();
 
+    for (final int[] coordinate : coordinates) {
+      final int xDiff;
+      final int yDiff;
+      final int lineLength;
+
+      if (coordinate[0] == coordinate[2]) {
+        // vertical line, x doesn't move
+        xDiff = 0;
+
+        // check for vertical direction
+        if (coordinate[1] < coordinate[3]) {
+          yDiff = 1;
+          lineLength = coordinate[3] - coordinate[1];
+        } else {
+          yDiff = -1;
+          lineLength = coordinate[1] - coordinate[3];
+        }
+      } else if (coordinate[1] == coordinate[3]) {
+        // Horizontal line; y doesn't move, so set yDiff to 0.
+        yDiff = 0;
+
+        // Check and set the xDiff direction.
+        if (coordinate[0] < coordinate[2]) {
+          xDiff = 1;
+          lineLength = coordinate[2] - coordinate[0];
+        } else {
+          xDiff = -1;
+          lineLength = coordinate[0] - coordinate[2];
+        }
+      } else {
+        // Diagonal line; both x and y move.
+
+        // Check and set the xDiff direction; also, set the line length.
+        if (coordinate[0] < coordinate[2]) {
+          xDiff = 1;
+          lineLength = coordinate[2] - coordinate[0];
+        } else {
+          xDiff = -1;
+          lineLength = coordinate[0] - coordinate[2];
+        }
+        // Check and set the yDiff direction.
+        if (coordinate[1] < coordinate[3]) {
+          yDiff = 1;
+        } else {
+          yDiff = -1;
+        }
+      }
+
+      // Draw the line onto the grid.
+      int x = coordinate[0];
+      int y = coordinate[1];
+      for (int i = 0; i <= lineLength; i++) {
+        grid[x][y]++;
+        x = x + xDiff;
+        y = y + yDiff;
+      }
+    }
+
+    // Check for points with value ">=2".
+    int overlaps = 0;
+    for (final int[] row : grid) {
+      for (final int point : row) {
+        if (point >= 2) {
+          overlaps++;
+        }
+      }
+    }
+    System.out.println("Part 2: Points where two or more lines overlap: " + overlaps);
   }
 }
