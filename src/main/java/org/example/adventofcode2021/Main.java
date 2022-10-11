@@ -36,6 +36,9 @@ public final class Main {
       case 6 -> {
         objectDay = new Day6();
       }
+      case 7 -> {
+        objectDay = new Day7();
+      }
       default -> {
         System.out.println("You have chosen a day which is not yet implemented");
         return;

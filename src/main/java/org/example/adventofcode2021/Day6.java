@@ -7,6 +7,7 @@ public class Day6 extends Day {
   private static final int ADULT_CYCLE = 6;
   private static final int BABY_CYCLE = 8;
   private static final int DAYS_PART1 = 80;
+  private static final int DAYS_PART2 = 256;
 
   private ArrayList<Integer> getInput() {
     Integer[] input = {4, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1,
@@ -49,7 +50,22 @@ public class Day6 extends Day {
   }
 
   void part2() {
+    final var fishArray = new long[9];
 
-    System.out.println("Part 2 not implemented yet.");
+    final var fishList = getInput();
+    for (final Integer fish : fishList) {
+      fishArray[fish]++;
+    }
+
+    for (int i = 0; i < DAYS_PART2; i++) {
+      final long birthdays = fishArray[0];
+      //noinspection SuspiciousSystemArraycopy
+      System.arraycopy(fishArray, 1, fishArray, 0, fishArray.length - 1);
+      fishArray[BABY_CYCLE] = birthdays;
+      fishArray[ADULT_CYCLE] = fishArray[ADULT_CYCLE] + birthdays;
+    }
+
+    final long sum = Arrays.stream(fishArray).sum();
+    System.out.println("Part 2. Number of fish: " + sum);
   }
 }
